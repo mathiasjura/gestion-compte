@@ -21,8 +21,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class ApiController extends Controller
 {
-
-    protected function getUser(){
+    protected function getUser()
+    {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $beneficiary = $user->getBeneficiary();
         $withDrawn = false;
@@ -30,9 +30,9 @@ class ApiController extends Controller
             $withDrawn = $beneficiary->getMembership()->isWithdrawn();
         }
 
-        if ($withDrawn || !$user->isEnabled()){ // user inactif
+        if ($withDrawn || !$user->isEnabled()) { // user inactif
             return array('user'=>false,'message'=>'User not found');
-        }else{
+        } else {
             return array('user'=>$user);
         }
     }
@@ -42,7 +42,8 @@ class ApiController extends Controller
      * @Method({"POST"})
      * @Security("has_role('ROLE_OAUTH_LOGIN')")
      */
-    public function swipeInAction(){
+    public function swipeInAction()
+    {
         return new JsonResponse(array(
             'success' => true
         ));
@@ -56,7 +57,7 @@ class ApiController extends Controller
     public function userAction()
     {
         $response = $this->getUser();
-        if (!$response['user']){
+        if (!$response['user']) {
             return new JsonResponse($response);
         }
         return new JsonResponse(array('user'=>array(
@@ -73,7 +74,7 @@ class ApiController extends Controller
     public function nextcloudUserAction()
     {
         $response = $this->getUser();
-        if (!$response['user']){
+        if (!$response['user']) {
             return new JsonResponse($response);
         }
         return new JsonResponse(array(
@@ -93,7 +94,7 @@ class ApiController extends Controller
             throw $this->createAccessDeniedException();
         }
         $response = $this->getUser();
-        if (!$response['user']){
+        if (!$response['user']) {
             return new JsonResponse($response);
         }
         /** @var User $current_app_user */
