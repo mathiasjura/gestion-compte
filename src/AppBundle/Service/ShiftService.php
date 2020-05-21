@@ -131,6 +131,12 @@ class ShiftService
         });
     }
 
+    public function isShiftEmpty($shift)
+    {
+        $shifts = $this->em->getRepository('AppBundle:Shift')->findAlreadyBookedShiftsOfBucket($shift);
+        return count($shifts) === 0;
+    }
+
     public function isShiftBookable(Shift $shift, Beneficiary $beneficiary = null)
     {
         // Do not book old or locked shifts
@@ -160,8 +166,9 @@ class ShiftService
         if ($member->getFirstShiftDate() > $shift->getStart())
             return false;
 
+
         // First shift ever of the beneficiary, check he or she is not the first one to book the bucket
-        if ($this->isBeginner($beneficiary) && $this->isShiftEmpty($shift)) {
+        if ($this->isShiftEmpty($shift) && !$beneficiary->getUser()->hasRole('ROLE_SHIFT_FIRST_BOOKER')) {
             return false;
         }
 
