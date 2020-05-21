@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\Date;
@@ -296,6 +297,8 @@ class BookingController extends Controller
      */
     public function bookShiftAction(Shift $shift,Request $request)
     {
+        $session = new Session();
+
         $beneficiaryId = $request->get("beneficiaryId");
         $em = $this->getDoctrine()->getManager();
         $beneficiary = $em->getRepository('AppBundle:Beneficiary')->find($beneficiaryId);
@@ -306,7 +309,6 @@ class BookingController extends Controller
             || !$this->get('shift_service')->isShiftBookable($shift, $beneficiary)
             || !$this->isGranted(MembershipVoter::EDIT, $beneficiary->getMembership())
         ) {
-            $session = new Session();
             $session->getFlashBag()->add("error", "Impossible de réserver ce créneau");
             return $this->redirectToRoute("booking");
         }
@@ -335,7 +337,8 @@ class BookingController extends Controller
         $dispatcher = $this->get('event_dispatcher');
         $dispatcher->dispatch(ShiftBookedEvent::NAME, new ShiftBookedEvent($shift, false));
 
-        return $this->redirectToRoute('homepage');
+        $session->getFlashBag()->add("success", "Ce créneau a bien été résérvé");
+        return new Response($this->generateUrl('homepage'), 200);
     }
 
     /**
