@@ -30,9 +30,6 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
-    AppBundle\EventListener\:
-        resource: '../../src/AppBundle/EventListener'
-        autoconfigure: false
     AppBundle\Helper\:
         resource: '../../src/AppBundle/Helper'
         arguments: ['@service_container']
@@ -66,21 +63,6 @@ services:
         class: AppBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
-
-    beneficiary_type:
-      class: AppBundle\Form\BeneficiaryType
-      arguments:
-        - '@security.token_storage'
-        - '@validator'
-        - '@beneficiary_initialization_subscriber'
-
-    beneficiary_without_user_type:
-      class: AppBundle\Form\BeneficiaryWithoutUserType
-      arguments:
-        - '@security.token_storage'
-        - '@validator'
-        - '@beneficiary_initialization_subscriber'
-
     app.authentication_success_handler:
             class: AppBundle\EventListener\AuthenticationSuccessHandler
             tags:
@@ -146,26 +128,12 @@ services:
                 - { name: kernel.event_listener, event: helloasso.registration_success, method: onHelloassoRegistrationSuccess }
                 - { name: kernel.event_listener, event: helloasso.too_early, method: onHelloassoTooEarly }
 
-
     beneficiary_initialization_subscriber:
             class: AppBundle\EventListener\BeneficiaryInitializationSubscriber
-            public: true
-            autowire: false
-            autoconfigure: false
             arguments:
-                $em: "@doctrine.orm.entity_manager"
-                $defaultRoles: "%user.default_roles%"
+                - "@doctrine.orm.entity_manager"
             tags:
                 - { name: kernel.event_listener, event: beneficiary.created, method: onBeforePersist }
-                - { name: kernel.event_subscriber }
-
-    booking_rights_subscriber:
-            class: AppBundle\EventListener\BookingRightsSubscriber
-            arguments:
-              - "@doctrine.orm.entity_manager"
-              - "@shift_service"
-            tags:
-              - { name: kernel.event_subscriber }
 
     validator_anonymous_beneficiary_unique_email:
             class: AppBundle\Validator\Constraints\UniqueEmailValidator

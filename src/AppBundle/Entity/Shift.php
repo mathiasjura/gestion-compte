@@ -45,13 +45,6 @@ class Shift
     /**
      * @var bool
      *
-     * @ORM\Column(name="beginner", type="boolean")
-     */
-    private $beginner = false;
-
-    /**
-     * @var bool
-     *
      * @ORM\Column(name="is_dismissed", type="boolean", options={"default" : 0})
      */
     private $isDismissed;
@@ -510,21 +503,5 @@ class Shift
     public function setLocked(?bool $locked): void
     {
         $this->locked = $locked;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBeginner(): bool
-    {
-        return $this->beginner;
-    }
-
-    /**
-     * @param bool $beginner
-     */
-    public function setBeginner(bool $beginner): void
-    {
-        $this->beginner = $beginner;
     }
 }

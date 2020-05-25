@@ -7,7 +7,10 @@ use AppBundle\Entity\Shift;
 use AppBundle\Entity\TimeLog;
 use AppBundle\Event\MemberCycleEndEvent;
 use AppBundle\Event\MemberCycleStartEvent;
-use AppBundle\Event\ShiftEvent;
+use AppBundle\Event\ShiftBookedEvent;
+use AppBundle\Event\ShiftDeletedEvent;
+use AppBundle\Event\ShiftDismissedEvent;
+use AppBundle\Event\ShiftFreedEvent;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
@@ -32,11 +35,11 @@ class TimeLogEventListener
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftBookedEvent $event
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function onShiftBooked(ShiftEvent $event)
+    public function onShiftBooked(ShiftBookedEvent $event)
     {
         $this->logger->info("Time Log Listener: onShiftBooked");
         $shift = $event->getShift();
@@ -44,36 +47,36 @@ class TimeLogEventListener
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftFreedEvent $event
      * @throws \Doctrine\ORM\ORMException
      */
-    public function onShiftFreed(ShiftEvent $event)
+    public function onShiftFreed(ShiftFreedEvent $event)
     {
         $this->logger->info("Time Log Listener: onShiftFreed");
-        $this->deleteShiftLogs($event->getShift(), $event->getShifter()->getMembership());
+        $this->deleteShiftLogs($event->getShift(), $event->getMembership());
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftDeletedEvent $event
      * @throws \Doctrine\ORM\ORMException
      */
-    public function onShiftDeleted(ShiftEvent $event)
+    public function onShiftDeleted(ShiftDeletedEvent $event)
     {
         $this->logger->info("Time Log Listener: onShiftDeleted");
         $shift = $event->getShift();
         if ($shift->getShifter()) {
-            $this->deleteShiftLogs($shift, $event->getShifter()->getMembership());
+            $this->deleteShiftLogs($shift, $shift->getShifter()->getMembership());
         }
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftDismissedEvent $event
      * @throws \Doctrine\ORM\ORMException
      */
-    public function onShiftDismissed(ShiftEvent $event)
+    public function onShiftDismissed(ShiftDismissedEvent $event)
     {
         $this->logger->info("Time Log Listener: onShiftDismissed");
-        $this->deleteShiftLogs($event->getShift(), $event->getShifter()->getMembership());
+        $this->deleteShiftLogs($event->getShift(), $event->getBeneficiary()->getMembership());
     }
 
     /**

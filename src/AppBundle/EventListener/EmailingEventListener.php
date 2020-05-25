@@ -11,7 +11,9 @@ use AppBundle\Event\MemberCreatedEvent;
 use AppBundle\Event\MemberCycleEndEvent;
 use AppBundle\Event\MemberCycleHalfEvent;
 use AppBundle\Event\MemberCycleStartEvent;
-use AppBundle\Event\ShiftEvent;
+use AppBundle\Event\ShiftBookedEvent;
+use AppBundle\Event\ShiftDeletedEvent;
+use AppBundle\Event\ShiftDismissedEvent;
 use Monolog\Logger;
 use Swift_Mailer;
 use Symfony\Component\DependencyInjection\Container;
@@ -213,10 +215,10 @@ class EmailingEventListener
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftBookedEvent $event
      * @throws \Exception
      */
-    public function onShiftBooked(ShiftEvent $event)
+    public function onShiftBooked(ShiftBookedEvent $event)
     {
         $shift = $event->getShift();
 
@@ -235,10 +237,10 @@ class EmailingEventListener
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftDeletedEvent $event
      * @throws \Exception
      */
-    public function onShiftDeleted(ShiftEvent $event)
+    public function onShiftDeleted(ShiftDeletedEvent $event)
     {
         $this->logger->info("Emailing Listener: onShiftDeleted");
         $shift = $event->getShift();
@@ -258,10 +260,10 @@ class EmailingEventListener
     }
 
     /**
-     * @param ShiftEvent $event
+     * @param ShiftDismissedEvent $event
      * @throws \Exception
      */
-    public function onShiftDismissed(ShiftEvent $event)
+    public function onShiftDismissed(ShiftDismissedEvent $event)
     {
         $this->logger->info("Emailing Listener: onShiftDismissed");
         $shift = $event->getShift();
