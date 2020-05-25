@@ -80,7 +80,7 @@ parameters:
     wiki_keys_url: ~
 
     # Registration
-    registration_duration: '1 year'
+    registration_duration: '40 year'
     helloasso_registration_campaign_url: https://www.helloasso.com/associations/my-local-coop/adhesions/re-adhesion
     helloasso_api_key:
     helloasso_api_password:
