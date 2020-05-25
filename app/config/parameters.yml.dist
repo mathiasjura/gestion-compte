@@ -72,7 +72,7 @@ parameters:
     project_name: My Local Coop
     project_url: https://yourcoop.local/
     project_url_display: yourcoop.local
-    main_color: #51CAE9
+    main_color: #c9e265
     local_currency_name: 'monnaie locale'
     #ip of the spot, comma separated if many
     place_local_ip_address: '127.0.0.1,192.168.0.x'

@@ -110,7 +110,7 @@ main {
   flex: 1 0 auto;
 }
 .main-navigation {
-  background-color: #51CAE9;
+  background-color: #c9e265;
 }
 .impersonate {
   background: black;
@@ -119,7 +119,7 @@ main {
   margin-left: 10px;
 }
 footer.page-footer {
-  background-color: #51CAE9;
+  background-color: #c9e265;
 }
 #logo-container {
   font-family: 'black_jackregular';
@@ -382,8 +382,8 @@ strong {
   font-size: 20px;
 }
 .process-update-list .last-shift {
-  border-top: 1px solid #51CAE9;
-  border-bottom: 1px solid #51CAE9;
+  border-top: 1px solid #c9e265;
+  border-bottom: 1px solid #c9e265;
   background: #d9f3fa;
 }
 .process-update-list tr.new > td > a {
