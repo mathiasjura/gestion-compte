@@ -13,6 +13,8 @@ services:
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
         public: false
+        bind:
+            $localCurrency: '%local_currency_name%'
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -110,6 +112,7 @@ services:
                 $logger: "@logger"
                 $container: "@service_container"
                 $memberEmail: "%emails.member%"
+                $shiftEmail: "%emails.shift%"
                 $wikiKeysUrl: "%wiki_keys_url%"
             tags:
                 - { name: kernel.event_listener, event: code.new, method: onCodeNew }

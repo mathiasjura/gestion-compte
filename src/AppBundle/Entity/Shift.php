@@ -107,6 +107,13 @@ class Shift
      */
     private $locked = false;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="fixe", type="boolean", options={"default" : 0}, nullable=false)
+     */
+    private $fixe = false;
+
     public function __construct()
     {
         $this->isDismissed = false;
@@ -385,13 +392,15 @@ class Shift
      *
      * @return \AppBundle\Entity\Shift
      */
-    public function free(){
+    public function free()
+    {
         $this->setBooker(null);
         $this->setBookedTime(null);
         $this->setDismissedReason('');
         $this->setIsDismissed(false);
         $this->setDismissedTime(null);
         $this->setShifter(null);
+        $this->setFixe(false);
         return $this;
     }
 
@@ -504,4 +513,20 @@ class Shift
     {
         $this->locked = $locked;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFixe(): ?bool {
+        return $this->fixe;
+    }
+
+    /**
+     * @param bool $fixe
+     */
+    public function setFixe(?bool $fixe): void {
+        $this->fixe = $fixe;
+    }
+
+
 }

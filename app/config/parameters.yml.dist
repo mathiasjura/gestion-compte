@@ -15,7 +15,7 @@ parameters:
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
-    mailer_port: 25
+    mailer_port: 1025
     mailer_user: ~
     mailer_password: ~
     mailer_encryption: null
@@ -72,7 +72,7 @@ parameters:
     project_name: My Local Coop
     project_url: https://yourcoop.local/
     project_url_display: yourcoop.local
-    main_color: #51CAE9
+    main_color: #c9e265
     local_currency_name: 'monnaie locale'
     #ip of the spot, comma separated if many
     place_local_ip_address: '127.0.0.1,192.168.0.x'
@@ -80,7 +80,7 @@ parameters:
     wiki_keys_url: ~
 
     # Registration
-    registration_duration: '1 year'
+    registration_duration: '40 year'
     helloasso_registration_campaign_url: https://www.helloasso.com/associations/my-local-coop/adhesions/re-adhesion
     helloasso_api_key:
     helloasso_api_password:
@@ -93,6 +93,8 @@ parameters:
     maximum_nb_of_beneficiaries_in_membership: 2
     new_users_start_as_beginner: true
     unlimited_book_duration: false
+    display_gauge: true
+    use_fly_and_fixed: false
 
     logging.mattermost.enabled: false
     logging.mattermost.level: 'critical'
